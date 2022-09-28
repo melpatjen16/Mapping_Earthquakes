@@ -20,6 +20,15 @@ let baseMaps = {
    "SateLite Streets": sateliteStreets,
 };
 
+// Create the earthquake layer for our map.
+let earthquakes = new L.layerGroup();
+
+// We define an object that contains the overlays.
+// This overlay will be visible all the time.
+let overlays = {
+  Earthquakes: earthquakes
+};
+
   // Create the map object with center, zoom level and default layer.
 let map = L.map('mapid', {
     center: [39.5, -98.5],
@@ -27,8 +36,9 @@ let map = L.map('mapid', {
     layers: [sateliteStreets]
 })
 
-// Pass our map layers into our layers control and add the layers control to the map.
-L.control.layers(baseMaps).addTo(map);
+// Then we add a control to the map that will allow the user to change
+// which layers are visible.
+L.control.layers(baseMaps, overlays).addTo(map);
 
 // Accessing the airport GeoJSON URL
 //let torontoHoods = "https://raw.githubusercontent.com/melpatjen16/Mapping_Earthquakes/Mapping_GeoJSON_Polygons/Simple_Map/torontoNeighborhoods.json";
@@ -97,6 +107,9 @@ L.geoJSON(data, {
     onEachFeature: function(feature, layer) {
     layer.bindPopup("Magnitude: " + feature.properties.mag + "<br>Location: " + feature.properties.place);
   }
-}).addTo(map);
+}).addTo(earthquakes);
+
+// Then we add the earthquakes layer to our map. 
+  earthquakes.addTo(map);
 
 });
