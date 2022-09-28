@@ -23,26 +23,15 @@ let baseMaps = {
   // Create the map object with center, zoom level and default layer.
 let map = L.map('mapid', {
     center: [39.5, -98.5],
-    zoom: 1,
-    layers: [sateliteStreets]
-})
+    zoom: 3,
+    layers: [streets]
+});
 
 // Pass our map layers into our layers control and add the layers control to the map.
 L.control.layers(baseMaps).addTo(map);
 
-// Create a style for the lines.
-let myStyle = {
-  color: "#ffffa1",
-  weight: 2
-
 // Retrieve the earthquake GeoJSON data.
-d3.json("https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_day.geojson").then(function(data) {
+d3.json("hhttps://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_week.geojson").then(function(data) {
   // Creating a GeoJSON layer with the retrieved data.
-  L.geoJSON(data, {
-    style = myStyle,
-    pointToLayer: function(feature, latlng) {
-      console.log(data);
-    return L.circleMarker(latlng);
-    },
-    }).addTo(map);
+  L.geoJSON(data).addTo(map);
 });
